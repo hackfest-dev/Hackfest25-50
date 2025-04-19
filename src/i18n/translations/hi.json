@@ -1,0 +1,75 @@
+{
+  "government": {
+    "title": "पात्र सरकारी योजनाएं खोजें",
+    "steps": {
+      "personal": "व्यक्तिगत विवरण",
+      "location": "स्थान और आय",
+      "work": "काम और परिवार"
+    },
+    "fields": {
+      "age": {
+        "label": "आयु",
+        "placeholder": "अपनी आयु दर्ज करें"
+      },
+      "gender": {
+        "label": "लिंग",
+        "options": {
+          "female": "महिला",
+          "male": "पुरुष"
+        }
+      },
+      "maritalStatus": {
+        "label": "वैवाहिक स्थिति",
+        "options": {
+          "single": "अविवाहित",
+          "married": "विवाहित",
+          "widowed": "विधवा",
+          "divorced": "तलाकशुदा"
+        }
+      },
+      "state": {
+        "label": "राज्य",
+        "placeholder": "अपना राज्य चुनें"
+      },
+      "income": {
+        "label": "वार्षिक आय सीमा",
+        "options": {
+          "below_1l": "1 लाख से कम",
+          "1l_2.5l": "1 लाख - 2.5 लाख",
+          "2.5l_5l": "2.5 लाख - 5 लाख",
+          "above_5l": "5 लाख से अधिक"
+        }
+      },
+      "occupation": {
+        "label": "व्यवसाय",
+        "options": {
+          "student": "विद्यार्थी",
+          "employed": "नौकरी",
+          "self_employed": "स्वरोजगार",
+          "homemaker": "गृहिणी",
+          "unemployed": "बेरोजगार"
+        }
+      }
+    },
+    "additionalInfo": {
+      "title": "अतिरिक्त जानकारी",
+      "isStudent": "वर्तमान में विद्यार्थी हैं",
+      "isWorking": "वर्तमान में कार्यरत हैं",
+      "hasChildren": "बच्चे हैं"
+    },
+    "navigation": {
+      "back": "वापस",
+      "next": "अगला",
+      "findSchemes": "पात्र योजनाएं खोजें"
+    },
+    "results": {
+      "title": "पात्र योजनाएं",
+      "noResults": "कोई पात्र योजना नहीं मिली",
+      "noResultsMessage": "आपकी प्रोफ़ाइल के आधार पर, हमें कोई मिलती-जुलती योजना नहीं मिली। अपने मानदंडों को समायोजित करें या नई योजनाओं के लिए बाद में फिर से जांचें।",
+      "checkAgain": "फिर से जांचें",
+      "eligibilityCriteria": "पात्रता मानदंड",
+      "benefits": "लाभ",
+      "learnMore": "और जानें"
+    }
+  }
+} 

@@ -1,0 +1,75 @@
+{
+  "government": {
+    "title": "Find Eligible Government Schemes",
+    "steps": {
+      "personal": "Personal Details",
+      "location": "Location & Income",
+      "work": "Work & Family"
+    },
+    "fields": {
+      "age": {
+        "label": "Age",
+        "placeholder": "Enter your age"
+      },
+      "gender": {
+        "label": "Gender",
+        "options": {
+          "female": "Female",
+          "male": "Male"
+        }
+      },
+      "maritalStatus": {
+        "label": "Marital Status",
+        "options": {
+          "single": "Single",
+          "married": "Married",
+          "widowed": "Widowed",
+          "divorced": "Divorced"
+        }
+      },
+      "state": {
+        "label": "State",
+        "placeholder": "Select your state"
+      },
+      "income": {
+        "label": "Annual Income Range",
+        "options": {
+          "below_1l": "Below 1 Lakh",
+          "1l_2.5l": "1 Lakh - 2.5 Lakh",
+          "2.5l_5l": "2.5 Lakh - 5 Lakh",
+          "above_5l": "Above 5 Lakh"
+        }
+      },
+      "occupation": {
+        "label": "Occupation",
+        "options": {
+          "student": "Student",
+          "employed": "Employed",
+          "self_employed": "Self Employed",
+          "homemaker": "Homemaker",
+          "unemployed": "Unemployed"
+        }
+      }
+    },
+    "additionalInfo": {
+      "title": "Additional Information",
+      "isStudent": "Currently a student",
+      "isWorking": "Currently working",
+      "hasChildren": "Have children"
+    },
+    "navigation": {
+      "back": "Back",
+      "next": "Next",
+      "findSchemes": "Find Eligible Schemes"
+    },
+    "results": {
+      "title": "Eligible Schemes",
+      "noResults": "No Eligible Schemes Found",
+      "noResultsMessage": "Based on your profile, we couldn't find any matching schemes. Try adjusting your criteria or check back later for new schemes.",
+      "checkAgain": "Check Again",
+      "eligibilityCriteria": "Eligibility Criteria",
+      "benefits": "Benefits",
+      "learnMore": "Learn More"
+    }
+  }
+} 
