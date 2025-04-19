@@ -136,6 +136,11 @@ class SplashViewModel(
                             city = "CHIKKAMAGALUR",
                             mobileNumber = "9480805100",
                             email = "dcckm@ksp.gov.in"
+                        ),
+                        PoliceHelpline(
+                            city = "Kalya",
+                            mobileNumber = "9480805461",
+                            email = "karkaltownudp@ksp.gov.in"
                         )
                     )
                     db.policeHelplineDao().insertAll(contacts)

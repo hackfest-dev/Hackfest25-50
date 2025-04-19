@@ -108,22 +108,42 @@ class VolumeButtonViewModel(
                 // Fetch city
                 val city = LocationUtils.getCityFromLocation(context, location)
                 if (city.isEmpty()) {
-                    showToast("Failed to determine city")
-                    Log.e(TAG, "City unavailable")
+                    // Fallback to calling 100
+                    try {
+                        val callIntent = Intent(Intent.ACTION_CALL).apply {
+                            data = Uri.parse("tel:100")
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        context.startActivity(callIntent)
+                        showToast("Calling emergency number 100")
+                        Log.d(TAG, "Calling emergency number 100 (city unavailable)")
+                    } catch (e: Exception) {
+                        showToast("Failed to make call")
+                        Log.e(TAG, "Call to 100 failed: ${e.message}", e)
+                    }
                     return@launch
                 }
 
                 // Fetch helpline
                 val helpline = policeHelplineDao.getContactByCity(city)
                 if (helpline == null) {
-                    showToast("No helpline found for $city")
-                    Log.e(TAG, "No helpline for city: $city")
+                    // Fallback to calling 100
+                    try {
+                        val callIntent = Intent(Intent.ACTION_CALL).apply {
+                            data = Uri.parse("tel:100")
+                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        }
+                        context.startActivity(callIntent)
+                        showToast("Calling emergency number 100")
+                        Log.d(TAG, "Calling emergency number 100 (no helpline for city: $city)")
+                    } catch (e: Exception) {
+                        showToast("Failed to make call")
+                        Log.e(TAG, "Call to 100 failed: ${e.message}", e)
+                    }
                     return@launch
-                } else {
-
                 }
 
-                // Make call
+                // Make call to city-specific helpline
                 try {
                     val callIntent = Intent(Intent.ACTION_CALL).apply {
                         data = Uri.parse("tel:${helpline.mobileNumber}")
