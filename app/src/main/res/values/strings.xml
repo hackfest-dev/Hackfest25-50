@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">WomenSafety</string>
+    <string name="accessibility_service_description">This app uses some feature that require this accessibility to enable for this app.</string>
+</resources>
