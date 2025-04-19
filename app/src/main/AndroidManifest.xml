@@ -29,9 +29,7 @@
         android:theme="@style/Theme.WomenSafety"
         tools:targetApi="31">
 
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDAPkbP_k5A9GyDAdn8M6xBTzmCm_qE8sA" />
+       
 
         <service
             android:name=".services.MyFirebaseMessagingService"
