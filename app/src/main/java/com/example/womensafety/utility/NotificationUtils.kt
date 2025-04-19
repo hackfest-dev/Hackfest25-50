@@ -3,14 +3,26 @@ package com.example.womensafety.utility
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
+import android.content.ContentValues.TAG
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import com.example.womensafety.MainActivity
 import com.example.womensafety.R
+import com.example.womensafety.model.IncidentReport
+import com.google.firebase.messaging.FirebaseMessaging
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withContext
+import okhttp3.MediaType.Companion.toMediaType
+import okhttp3.OkHttpClient
+import okhttp3.Request
+import okhttp3.RequestBody.Companion.toRequestBody
+import org.json.JSONObject
 
 object NotificationUtils {
     private const val CHANNEL_ID = "women_safety_channel"
@@ -127,6 +139,46 @@ object NotificationUtils {
 
         with(NotificationManagerCompat.from(context)) {
             notify(childPhone.hashCode() + 1, builder.build())
+        }
+    }
+        private const val FCM_ENDPOINT = "https://fcm.googleapis.com/v1/projects/womensafety/messages:send"
+        private const val SERVER_KEY = "82e71fc9ae39536c878d15c133295fa2f8ee6a69" // Replace with your FCM server key
+
+    suspend fun sendCommunityNotification(context: Context, report: IncidentReport) {
+        withContext(Dispatchers.IO) {
+            try {
+                // Subscribe to topic
+                FirebaseMessaging.getInstance().subscribeToTopic("community_reports").await()
+                Log.d(TAG, "Subscribed to community_reports")
+
+                // Build notification payload
+                val message = JSONObject().apply {
+                    put("to", "/topics/community_reports")
+                    put("notification", JSONObject().apply {
+                        put("title", "New Incident Report")
+                        put("body", "A report has been posted near ${report.city ?: "your area"}. Check it out.")
+                    })
+                }
+
+                // Send HTTP POST to FCM
+                val client = OkHttpClient()
+                val requestBody = message.toString().toRequestBody("application/json".toMediaType())
+                val request = Request.Builder()
+                    .url(FCM_ENDPOINT)
+                    .post(requestBody)
+                    .addHeader("Authorization", "key=$SERVER_KEY")
+                    .addHeader("Content-Type", "application/json")
+                    .build()
+
+                val response = client.newCall(request).execute()
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Notification sent to topic: community_reports")
+                } else {
+                    Log.e(TAG, "Failed to send notification: ${response.code} - ${response.body?.string()}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to send notification: ${e.message}", e)
+            }
         }
     }
 }

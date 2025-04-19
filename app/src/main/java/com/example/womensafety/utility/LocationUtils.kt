@@ -11,6 +11,7 @@ import com.google.android.gms.location.LocationServices
 import com.google.maps.GeoApiContext
 import com.google.maps.GeocodingApi
 import com.google.maps.model.AddressComponentType
+import io.opencensus.tags.Tag
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -121,7 +122,7 @@ object LocationUtils {
                         component.types.any { it == AddressComponentType.LOCALITY }
                     }?.longName
                     city?.uppercase(Locale.getDefault())?.trim() ?: run {
-                        Log.e(TAG, "No city found for coordinates: ${location.latitude}, ${location.longitude}")
+                        Log.e(TAG,"No city found for coordinates: https://www.google.com/maps?q=${location.latitude},${location.longitude}" )
                         ""
                     }
                 } else {
