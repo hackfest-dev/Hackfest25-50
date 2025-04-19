@@ -1,0 +1,21 @@
+rules_version = '2';
+service cloud.firestore {
+    match /databases/{database}/documents {
+        // Families collection: Only guardian or child can read/write their family document
+        match /families/{familyId} {
+            allow read, write: if request.auth != null && (
+                request.auth.uid == resource.data.guardianPhone ||
+                    request.auth.uid == resource.data.childPhone
+            );
+        }
+
+        // TempOtps collection: Restrict access to guardian or child based on familyId
+        match /tempOtps/{familyId} {
+            allow read, write: if request.auth != null && (
+            // familyId is formatted as "guardianPhone-childPhone"
+                familyId.split('-')[0] == request.auth.uid || // Guardian
+                    familyId.split('-')[1] == request.auth.uid    // Child
+            );
+        }
+    }
+}
