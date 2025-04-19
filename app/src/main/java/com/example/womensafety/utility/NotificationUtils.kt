@@ -141,40 +141,32 @@ object NotificationUtils {
             notify(childPhone.hashCode() + 1, builder.build())
         }
     }
-        private const val FCM_ENDPOINT = "https://fcm.googleapis.com/v1/projects/womensafety/messages:send"
-        private const val SERVER_KEY = "82e71fc9ae39536c878d15c133295fa2f8ee6a69" // Replace with your FCM server key
+//        private const val FCM_ENDPOINT = "https://fcm.googleapis.com/v1/projects/womensafety/messages:send"
+//        private const val SERVER_KEY = "82e71fc9ae39536c878d15c133295fa2f8ee6a69" // Replace with your FCM server key 172.18.4.58
+private const val SERVER_ENDPOINT = "http://172.18.4.58:3000/send-notification" // Update to deployed URL later
 
     suspend fun sendCommunityNotification(context: Context, report: IncidentReport) {
         withContext(Dispatchers.IO) {
             try {
-                // Subscribe to topic
                 FirebaseMessaging.getInstance().subscribeToTopic("community_reports").await()
                 Log.d(TAG, "Subscribed to community_reports")
 
-                // Build notification payload
-                val message = JSONObject().apply {
-                    put("to", "/topics/community_reports")
-                    put("notification", JSONObject().apply {
-                        put("title", "New Incident Report")
-                        put("body", "A report has been posted near ${report.city ?: "your area"}. Check it out.")
-                    })
-                }
-
-                // Send HTTP POST to FCM
                 val client = OkHttpClient()
-                val requestBody = message.toString().toRequestBody("application/json".toMediaType())
+                val requestBody = JSONObject()
+                    .put("city", report.city ?: "your area")
+                    .toString()
+                    .toRequestBody("application/json".toMediaType())
+
                 val request = Request.Builder()
-                    .url(FCM_ENDPOINT)
+                    .url(SERVER_ENDPOINT)
                     .post(requestBody)
-                    .addHeader("Authorization", "key=$SERVER_KEY")
-                    .addHeader("Content-Type", "application/json")
                     .build()
 
                 val response = client.newCall(request).execute()
                 if (response.isSuccessful) {
-                    Log.d(TAG, "Notification sent to topic: community_reports")
+                    Log.d(TAG, "Notification sent via server")
                 } else {
-                    Log.e(TAG, "Failed to send notification: ${response.code} - ${response.body?.string()}")
+                    Log.e(TAG, "Server error: ${response.code} - ${response.body?.string()}")
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to send notification: ${e.message}", e)
