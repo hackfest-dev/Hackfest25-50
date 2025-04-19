@@ -21,8 +21,10 @@ android {
     }
     packaging {
         resources {
-            excludes += "/META-INF/LICENSE.md"
-            excludes += "/META-INF/NOTICE.md"
+            excludes += "/META-INF/{AL2.0,LGPL2.1,LICENSE,NOTICE}.*"
+            excludes += "/META-INF/DEPENDENCIES"
+            excludes += "/META-INF/services/*"
+            pickFirsts += "google/firestore/v1/query.proto" // Retain for Firestore
         }
     }
 
@@ -51,39 +53,44 @@ dependencies {
     // Google Maps and related dependencies
     implementation("com.google.android.gms:play-services-location:21.0.1")
     implementation("com.google.android.gms:play-services-maps:18.2.0")
-    implementation("com.google.maps:google-maps-services:2.2.0")
+    implementation("com.google.maps:google-maps-services:2.2.0") {
+        exclude (group= "org.slf4j") // Avoid SLF4J conflicts
+    }
     implementation("com.google.maps.android:android-maps-utils:3.0.0")
     implementation("com.google.android.libraries.places:places:2.7.0")
     implementation("com.google.maps.android:maps-compose:2.11.0")
     implementation("com.google.accompanist:accompanist-permissions:0.28.0")
     implementation("com.google.android.gms:play-services-tasks:18.0.2")
-    implementation ("org.slf4j:slf4j-simple:2.0.9")
-    // JavaMail API
-    implementation ("com.sun.mail:android-mail:1.6.7")
-    // Activation framework (required by JavaMail)
-//    implementation ("javax.activation:activation:1.1.1")
-    //SMS parsing
-//    implementation ("androidx.core:core-ktx:1.12.0")
+    implementation("org.slf4j:slf4j-simple:2.0.9")
 
-    //firebase
-    implementation(platform("com.google.firebase:firebase-bom:33.12.0"))
+    // JavaMail API
+    implementation("com.sun.mail:android-mail:1.6.7")
+    implementation("com.sun.mail:android-activation:1.6.7")
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:33.1.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.firebase:firebase-firestore")
-    implementation ("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-appcheck-playintegrity")
+    implementation("com.google.firebase:firebase-messaging")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0") {
+        exclude (group= "org.slf4j") // Avoid SLF4J conflicts
+    }
 
+    // Lifecycle and Navigation
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.7")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
-    // Navigation
     implementation("androidx.navigation:navigation-compose:2.7.5")
-    //Live Data
     implementation("androidx.compose.runtime:runtime-livedata:1.7.4")
-    //Room
+
+    // Room
     val room_version = "2.6.1"
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
 
+    // AndroidX and Compose
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
