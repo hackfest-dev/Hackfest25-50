@@ -14,7 +14,6 @@ import androidx.core.app.NotificationManagerCompat
 import com.example.womensafety.MainActivity
 import com.example.womensafety.R
 import com.example.womensafety.model.IncidentReport
-import com.google.firebase.messaging.FirebaseMessaging
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -148,7 +147,7 @@ private const val SERVER_ENDPOINT = "http://172.18.4.58:3000/send-notification" 
     suspend fun sendCommunityNotification(context: Context, report: IncidentReport) {
         withContext(Dispatchers.IO) {
             try {
-                FirebaseMessaging.getInstance().subscribeToTopic("community_reports").await()
+                //FirebaseMessaging.getInstance().subscribeToTopic("community_reports").await()
                 Log.d(TAG, "Subscribed to community_reports")
 
                 val client = OkHttpClient()
